@@ -20,6 +20,7 @@ public class Dispatcher implements Observer {
         blockedQueue = new Queue(10);
         this.timeQuantum = timeQuantum;
         this.cpu = cpu;
+        cpu.addObserver(this);
     }
 
     void addNewProcess(Process p) {
@@ -43,9 +44,13 @@ public class Dispatcher implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        //System.out.println("sdjfdskjfnddddddddddddddddddddddddddddddd");
         if (o.getClass().toString().contains("Timer")) {
             dispatch();
-        } else {
+            //System.out.println("dispatched");
+        } else if(o.getClass().toString().contains("Timer")){
+            
+        }else {
             interrupt();
         }
     }

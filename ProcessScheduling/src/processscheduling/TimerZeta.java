@@ -16,10 +16,14 @@ public class TimerZeta extends Observable implements Runnable {
     public void run() {
         while (true) {
             startTime = System.currentTimeMillis();
+            //System.out.println(startTime);
             long endTime = startTime + timeQuantum;
+            //System.out.println(endTime);
             while ((endTime - System.currentTimeMillis()) > 0) {;
-
+                
+                //System.out.println(endTime - System.currentTimeMillis());
             }
+            setChanged();
             notifyObservers();
         }
     }

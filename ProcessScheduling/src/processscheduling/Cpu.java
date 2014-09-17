@@ -5,10 +5,11 @@
  */
 package processscheduling;
 
+import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Cpu {
+public class Cpu extends Observable{
 
     private Process current;
     TimerTask task;
@@ -17,19 +18,7 @@ public class Cpu {
 
     public Cpu(long timeQuantum) {
         this.timeQunatum = timeQuantum;
-        task = new TimerTask() {
-
-            @Override
-            public void run() {
-                long currentBurst = current.getBurstTime();
-                if (currentBurst - 1000 >= 0) {
-                    current.setBurstTime(currentBurst - 1000);
-                    System.out.println(current.getPid()+" is executing and current burst is "+currentBurst );
-                } else {
-                    current.setBurstTime(0);
-                }
-            }
-        };
+        
     }
 
     /**
@@ -49,6 +38,21 @@ public class Cpu {
     public void execute() {
         
         timer = new Timer();
+        task = new TimerTask() {
+
+            @Override
+            public void run() {
+                long currentBurst = current.getBurstTime();
+                if (currentBurst - 1000 >= 0) {
+                    current.setBurstTime(currentBurst - 1000);
+                    System.out.println(current.getPid()+" is executed and current burst is "+currentBurst );
+                } else {
+                    current.setBurstTime(0);
+                    System.out.println(current.getPid()+" finished execution and current burst is "+currentBurst);
+                    
+                }
+            }
+        };
         timer.schedule(task, 0, 1000);
     }
 

@@ -27,7 +27,11 @@ public class ProcessScheduling {
         for (int i = 0; i < 10; i++) {
             dispatcher.addNewProcess(new Process(i, "Ready", (i + 1) * 1000, 0, 0, (i + 1) * 1000));
         }
-        dispatcher.dispatch();
+        
+        Thread slicer= new Thread(timer);
+        slicer.start();
+        
+        //dispatcher.dispatch();
     }
 
     public static void main(String[] args) {
