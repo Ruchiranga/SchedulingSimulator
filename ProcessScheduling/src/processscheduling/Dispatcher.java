@@ -30,7 +30,7 @@ public class Dispatcher implements Observer {
 
     }
 
-    public void dispatch() {
+    public Process dispatch() {
 
         cpu.pauseExecution();
         if (cpu.getCurrent() != null) {
@@ -39,6 +39,7 @@ public class Dispatcher implements Observer {
         Process next = readyQueue.dequeue();
         cpu.setCurrent(next);
         cpu.execute();
+        return next;
     }
 
     @Override
