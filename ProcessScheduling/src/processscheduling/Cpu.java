@@ -49,7 +49,7 @@ public class Cpu extends Observable{
                 } else {
                     current.setBurstTime(0);
                     System.out.println(current.getPid()+" finished execution and current burst is "+currentBurst);
-                    
+                    current = null;
                 }
             }
         };
