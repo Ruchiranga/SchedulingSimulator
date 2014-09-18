@@ -3,10 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/ruchiranga/SchedulingSimulator/ProcessScheduling/src/processscheduling/TimerZeta.java</file>
             <file>file:/C:/Users/ruchiranga/SchedulingSimulator/ProcessScheduling/src/processscheduling/Dispatcher.java</file>
             <file>file:/C:/Users/ruchiranga/SchedulingSimulator/ProcessScheduling/src/processscheduling/ProcessScheduling.java</file>
             <file>file:/C:/Users/ruchiranga/SchedulingSimulator/ProcessScheduling/src/processscheduling/Cpu.java</file>
+=======
+            <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/processscheduling/Process.java</file>
+            <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/processscheduling/Dispatcher.java</file>
+            <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/view/DemostrationInterface.java</file>
+            <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/processscheduling/ProcessScheduling.java</file>
+            <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/processscheduling/Cpu.java</file>
+>>>>>>> a0357fa6d46aa565701a9d79d6799fbf64b8ee23
         </group>
     </open-files>
 </project-private>

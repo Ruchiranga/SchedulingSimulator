@@ -15,10 +15,27 @@ public class Cpu extends Observable{
     TimerTask task;
     long timeQunatum;
     Timer timer;
+    
+    
 
     public Cpu(long timeQuantum) {
         this.timeQunatum = timeQuantum;
-        
+
+        task = new TimerTask() {
+
+            @Override
+            public void run() {
+                long currentBurst = current.getBurstTime();
+                if (currentBurst - 1000 >= 0) {
+                    current.setBurstTime(currentBurst - 1000);
+                    System.out.println(current.getPid()+" is executing and current burst is "+currentBurst );
+                    notifyObservers(current);
+                } else {
+                    current.setBurstTime(0);
+                    System.out.println("Exceeded burst time "+current.getPid());
+                }
+            }
+        };
     }
 
     /**
