@@ -10,10 +10,10 @@ import java.util.Observer;
 
 public class Dispatcher implements Observer {
 
-    Queue readyQueue;
-    Queue blockedQueue;
-    Cpu cpu;
-    long timeQuantum;
+    private Queue readyQueue;
+    private Queue blockedQueue;
+    private Cpu cpu;
+    private long timeQuantum;
 
     Dispatcher(Cpu cpu, long timeQuantum) {
         readyQueue = new Queue(10);
@@ -23,7 +23,7 @@ public class Dispatcher implements Observer {
     }
 
     void addNewProcess(Process p) {
-        readyQueue.enqueue(p);
+        getReadyQueue().enqueue(p);
     }
 
     public void interrupt() {
@@ -32,13 +32,13 @@ public class Dispatcher implements Observer {
 
     public void dispatch() {
 
-        cpu.pauseExecution();
-        if (cpu.getCurrent() != null) {
-            readyQueue.enqueue(cpu.getCurrent());
+        getCpu().pauseExecution();
+        if (getCpu().getCurrent() != null) {
+            getReadyQueue().enqueue(getCpu().getCurrent());
         }
-        Process next = readyQueue.dequeue();
-        cpu.setCurrent(next);
-        cpu.execute();
+        Process next = getReadyQueue().dequeue();
+        getCpu().setCurrent(next);
+        getCpu().execute();
     }
 
     @Override
@@ -49,4 +49,62 @@ public class Dispatcher implements Observer {
             interrupt();
         }
     }
+
+    /**
+     * @return the readyQueue
+     */
+    public Queue getReadyQueue() {
+        return readyQueue;
+    }
+
+    /**
+     * @param readyQueue the readyQueue to set
+     */
+    public void setReadyQueue(Queue readyQueue) {
+        this.readyQueue = readyQueue;
+    }
+
+    /**
+     * @return the blockedQueue
+     */
+    public Queue getBlockedQueue() {
+        return blockedQueue;
+    }
+
+    /**
+     * @param blockedQueue the blockedQueue to set
+     */
+    public void setBlockedQueue(Queue blockedQueue) {
+        this.blockedQueue = blockedQueue;
+    }
+
+    /**
+     * @return the cpu
+     */
+    public Cpu getCpu() {
+        return cpu;
+    }
+
+    /**
+     * @param cpu the cpu to set
+     */
+    public void setCpu(Cpu cpu) {
+        this.cpu = cpu;
+    }
+
+    /**
+     * @return the timeQuantum
+     */
+    public long getTimeQuantum() {
+        return timeQuantum;
+    }
+
+    /**
+     * @param timeQuantum the timeQuantum to set
+     */
+    public void setTimeQuantum(long timeQuantum) {
+        this.timeQuantum = timeQuantum;
+    }
+    
+    
 }

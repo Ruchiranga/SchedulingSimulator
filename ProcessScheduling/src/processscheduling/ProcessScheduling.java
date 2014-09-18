@@ -19,7 +19,6 @@ public class ProcessScheduling {
         this.timer = new TimerZeta(1000);
         this.cpu = new Cpu(timeQuantum);
         this.dispatcher = new Dispatcher(cpu, timeQuantum);
-
         timer.addObserver(dispatcher);
     }
 
@@ -34,6 +33,19 @@ public class ProcessScheduling {
         ProcessScheduling scheduler = new ProcessScheduling(3000);
         scheduler.simulate();
 
+    }
+    
+    public long createTimeQuantum(){
+        long sum=0,dividend=0,intSum=0;
+        for(int i=0;i<10;i++){
+            sum+= Math.pow(dispatcher.getReadyQueue().getProcess(i).getExecutionTime(), 2);
+            for(int j=0;j<10 && j!=i;j++){
+                intSum += dispatcher.getReadyQueue().getProcess(i).getExecutionTime();
+            }  
+            dividend += intSum/9;             
+        } 
+        
+        return Math.round(Math.sqrt(sum)/dividend);        
     }
 
 }

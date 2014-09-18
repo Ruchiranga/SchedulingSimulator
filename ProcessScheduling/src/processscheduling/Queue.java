@@ -66,4 +66,8 @@ public class Queue {
     {
         return nItems;
     }
+    
+    public Process getProcess(int number){
+        return queArray[number];
+    }
 }
