@@ -1,15 +1,16 @@
-
 package processscheduling;
 
 import java.util.ArrayList;
 
 public class Process {
+
     private int pid;
     private String state;
     private long burstTime;
     private long waitingTime;
     private long turnAroundTime;
     private long executionTime; //service time= executionTime-burstTime
+    private boolean isComplete;
 
     public Process(int pid, String state, long burstTime, long waitingTime, long turnAroundTime, long executionTime) {
         this.pid = pid;
@@ -17,8 +18,8 @@ public class Process {
         this.burstTime = burstTime;
         this.waitingTime = waitingTime;
         this.turnAroundTime = turnAroundTime;
-        this.executionTime = executionTime;           
-        
+        this.executionTime = executionTime;
+        this.isComplete = false;
     }
 
     /**
@@ -76,8 +77,7 @@ public class Process {
     public void setWaitingTime(long waitingTime) {
         this.waitingTime = waitingTime;
     }
-    
-    
+
     /**
      * @return the turnAroundTime
      */
@@ -104,6 +104,20 @@ public class Process {
      */
     public void setExecutionTime(long executionTime) {
         this.executionTime = executionTime;
-    }   
-    
+    }
+
+    /**
+     * @return the isComplete
+     */
+    public boolean isComplete() {
+        return isComplete;
+    }
+
+    /**
+     * @param isComplete the isComplete to set
+     */
+    public void setIsComplete(boolean isComplete) {
+        this.isComplete = isComplete;
+    }
+
 }

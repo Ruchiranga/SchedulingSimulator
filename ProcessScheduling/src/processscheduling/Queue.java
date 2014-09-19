@@ -28,6 +28,7 @@ public class Queue {
 
     public void enqueue(Process process) // put item at rear of queue
     {
+        
         if (rear == maxSize - 1) // deal with wraparound
         {
             rear = -1;
