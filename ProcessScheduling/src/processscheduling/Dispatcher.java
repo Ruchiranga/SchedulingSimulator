@@ -25,6 +25,14 @@ public class Dispatcher extends Observable implements Observer {
         cpu.addObserver(this);
     }
 
+    public Queue getReadyQueue() {
+        return readyQueue;
+    }
+
+    public Queue getBlockedQueue() {
+        return blockedQueue;
+    }
+
     void addNewProcess(Process p) {
         readyQueue.enqueue(p);
     }
@@ -46,41 +54,49 @@ public class Dispatcher extends Observable implements Observer {
                 Process blocked = blockedQueue.dequeue();
                 if (blocked != null) {
                     readyQueue.enqueue(blocked);
-                    setChanged();
-                    notifyObservers();
                 }
             }
         };
-        timer.schedule(task, time);
+
+        timer.schedule(task, 0, time);  
         dispatch();
+
     }
 
     public Process dispatch() {
 
         cpu.pauseExecution();
         if (cpu.getCurrent() != null) {
-            Process p = cpu.getCurrent();
-            if (!p.isComplete()) {
-                p.setState("Ready");
-                readyQueue.enqueue(p);
+            if (!cpu.getCurrent().getState().equalsIgnoreCase("Blocked")) {
+                Process p = cpu.getCurrent();
+                if (!p.isComplete()) {
+                    p.setState("Ready");
+                    readyQueue.enqueue(p);
+                }
             }
         }
         Process next = readyQueue.dequeue();
-        cpu.setCurrent(next);
-        next.setState("Running");
-        cpu.execute();
-        return next;
+        
+        if (next != null) {
+            if(next.getStartTime() == (long)(-1)){
+                next.setStartTime(cpu.getCurrentTime());
+            }
+            cpu.setCurrent(next);
+            next.setState("Running");
+            cpu.execute();
+            return next;
+        } else {
+            cpu.setCurrent(null);
+            return null;
+        }
+
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("sdjfdskjfnddddddddddddddddddddddddddddddd");
-
-        //if (o.getClass().toString().contains("TimeSlicer")) {
         if (arg == null) {
 
             dispatch();
-            //System.out.println("dispatched");
-        } 
+        }
     }
 }

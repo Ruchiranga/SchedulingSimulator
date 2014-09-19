@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
             <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/processscheduling/Process.java</file>
+            <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/processscheduling/TimerZeta.java</file>
             <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/processscheduling/Dispatcher.java</file>
             <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/view/DemostrationInterface.java</file>
             <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/processscheduling/ProcessScheduling.java</file>
             <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/processscheduling/Queue.java</file>
             <file>file:/D:/SchedulingSimulator/ProcessScheduling/src/processscheduling/Cpu.java</file>
-=======
-            <file>file:/C:/Users/ruchiranga/SchedulingSimulator/ProcessScheduling/src/processscheduling/TimerZeta.java</file>
-            <file>file:/C:/Users/ruchiranga/SchedulingSimulator/ProcessScheduling/src/processscheduling/Dispatcher.java</file>
-            <file>file:/C:/Users/ruchiranga/SchedulingSimulator/ProcessScheduling/src/processscheduling/ProcessScheduling.java</file>
-            <file>file:/C:/Users/ruchiranga/SchedulingSimulator/ProcessScheduling/src/processscheduling/Cpu.java</file>
->>>>>>> 87efb0282f2dc4262c8c4cd27832f11f8f3cafb7
         </group>
     </open-files>
 </project-private>

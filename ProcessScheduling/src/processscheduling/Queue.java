@@ -5,66 +5,55 @@
  */
 package processscheduling;
 
+import java.util.ArrayList;
+import java.util.Observable;
+
 /**
  *
  * @author Nands
  */
-public class Queue {
+public class Queue extends Observable {
 
-    private int maxSize;
-    private Process[] queArray;
-    private int front;
-    private int rear;
-    private int nItems;
+    private ArrayList<Process> queArray;
 
     public Queue(int s) // constructor
     {
-        maxSize = s;
-        queArray = new Process[maxSize];
-        front = 0;
-        rear = -1;
-        nItems = 0;
+        queArray = new ArrayList<>();
+    }
+
+    public ArrayList<Process> getProcesses() {
+        return queArray;
     }
 
     public void enqueue(Process process) // put item at rear of queue
     {
-        
-        if (rear == maxSize - 1) // deal with wraparound
-        {
-            rear = -1;
-        }
-        queArray[++rear] = process;         // increment rear and insert
-        nItems++;                     // one more item
+        queArray.add(process);        // increment rear and insert
+        setChanged();
+        notifyObservers(process);
     }
 
     public Process dequeue() // take item from front of queue
     {
-        Process process = queArray[front++]; // get value and incr front
-        if (front == maxSize) // deal with wraparound
-        {
-            front = 0;
+        if (!isEmpty()) {
+            Process process = queArray.get(0); // get value and incr front
+            process.setState("Running");
+            queArray.remove(0);
+            setChanged();
+            notifyObservers(process);
+            return process;
         }
-        nItems--;                      // one less item
-        return process;
-    }
+        return null;
 
-    public Process peekFront() // peek at front of queue
-    {
-        return queArray[front];
     }
 
     public boolean isEmpty() // true if queue is empty
     {
-        return (nItems == 0);
-    }
-
-    public boolean isFull() // true if queue is full
-    {
-        return (nItems == maxSize);
+        return (queArray.size() == 0);
     }
 
     public int size() // number of items in queue
     {
-        return nItems;
+        return queArray.size();
     }
+
 }
