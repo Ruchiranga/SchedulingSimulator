@@ -9,19 +9,16 @@ import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Cpu extends Observable{
+public class Cpu extends Observable {
 
     private Process current;
     TimerTask task;
     long timeQunatum;
     Timer timer;
-    
-    
 
     public Cpu(long timeQuantum) {
         this.timeQunatum = timeQuantum;
-        
-        
+
     }
 
     /**
@@ -40,6 +37,7 @@ public class Cpu extends Observable{
 
     public void execute() { //This is the timer task that runs
         
+
         timer = new Timer();
         task = new TimerTask() {
 

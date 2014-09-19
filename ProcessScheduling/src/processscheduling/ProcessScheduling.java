@@ -35,6 +35,7 @@ public class ProcessScheduling {
         this.dispatcher = new Dispatcher(cpu, timeQuantum);
         processes = new ArrayList<>();
 
+        
         timer.addObserver(dispatcher);
         
     }
