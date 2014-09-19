@@ -15,10 +15,11 @@ public class Cpu extends Observable {
     TimerTask task;
     long timeQunatum;
     Timer timer;
+    int seconds;
+    
 
     public Cpu(long timeQuantum) {
         this.timeQunatum = timeQuantum;
-
     }
 
     /**
@@ -36,24 +37,37 @@ public class Cpu extends Observable {
     }
 
     public void execute() { //This is the timer task that runs
-        
-
         timer = new Timer();
         task = new TimerTask() {
 
             @Override
             public void run() {
+                
                 System.out.println("Cpu started at :" + System.currentTimeMillis());
                 long currentBurst = current.getBurstTime();
                 if (currentBurst - 1000 > 0) {
                     current.setBurstTime(currentBurst - 1000);
-                    System.out.println(current.getPid()+" is executed and current burst is "+currentBurst +"( Execution time :"+current.getExecutionTime()+" )");
+                    seconds++;
+                    System.out.println(current.getPid() + " is executed and current burst is " + current.getBurstTime() + "( Execution time :" + current.getExecutionTime() + " )");
                     setChanged();
                     notifyObservers(current);
+                    
                 } else {
                     current.setBurstTime(0);
-                    System.out.println(current.getPid()+" finished execution and current burst is "+currentBurst);
-                    current = null;
+                    seconds = 0;
+                    current.setIsComplete(true);
+                    System.out.println(current.getPid() + " finished execution and current burst is " + currentBurst);
+                    setChanged();
+                    notifyObservers(current);
+                    setChanged();
+                    notifyObservers();
+                    
+
+                }
+                
+                if(seconds%3==0){
+                    setChanged();
+                    notifyObservers();
                 }
             }
         };

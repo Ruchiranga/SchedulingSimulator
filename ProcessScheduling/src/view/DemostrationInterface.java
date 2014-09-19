@@ -44,11 +44,8 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setTitle("Process Scheduler");
 
-        
-
         scheduler = new ProcessScheduling(3000);      //Give time quantum
         cpu = scheduler.getCpu();
-        
 
         bars = new JProgressBar[10];
         bars[0] = process1_progressBar;
@@ -74,31 +71,33 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         bars[9].setForeground(Color.LIGHT_GRAY);
 
     }
-    
+
     int loc = 1;
 
     @Override
     public void update(Observable o, Object arg) {
-        Process currentProcess = (Process)arg;
-        
-        int pid = currentProcess.getPid();
-        currentProcessTxt.setText("Process "+pid);
-        //System.out.println("Burst " + currentProcess.getBurstTime() + " Exe time " + currentProcess.getExecutionTime());
-        float progValue = ( (float)currentProcess.getBurstTime() /  (float)currentProcess.getExecutionTime()) * 100;
-        System.out.println(progValue);
-        bars[pid - 1].setValue(Math.round(progValue));
-        Color color = bars[pid - 1].getForeground();
-        JPanel runningPanel = new JPanel();
-        runningPanel.setBackground(color);
-        runningPanel.setSize(23, 100);
-        ganttChartPanel.add(runningPanel);
-        runningPanel.setLocation(loc, 0);
-        loc += 23;
-        
-        //"Process", "State", "Execution Time", "Burst Time", "Service Time (Ts)", "Start Time", "Finish Time", "Waiting Time", "Turnaround Time (Tr)", "Tr/Ts"
-        dtm.setValueAt(currentProcess.getState(), pid-1, 1);
-        dtm.setValueAt(currentProcess.getBurstTime(), pid-1, 3);
-        dtm.setValueAt(currentProcess.getExecutionTime()-currentProcess.getBurstTime(), pid-1, 4);
+        if (arg != null) {
+            Process currentProcess = (Process) arg;
+
+            int pid = currentProcess.getPid();
+            currentProcessTxt.setText("Process " + pid);
+            //System.out.println("Burst " + currentProcess.getBurstTime() + " Exe time " + currentProcess.getExecutionTime());
+            float progValue = ((float) currentProcess.getBurstTime() / (float) currentProcess.getExecutionTime()) * 100;
+            System.out.println(progValue);
+            bars[pid - 1].setValue(Math.round(progValue));
+            Color color = bars[pid - 1].getForeground();
+            JPanel runningPanel = new JPanel();
+            runningPanel.setBackground(color);
+            runningPanel.setSize(23, 100);
+            ganttChartPanel.add(runningPanel);
+            runningPanel.setLocation(loc, 0);
+            loc += 23;
+
+            //"Process", "State", "Execution Time", "Burst Time", "Service Time (Ts)", "Start Time", "Finish Time", "Waiting Time", "Turnaround Time (Tr)", "Tr/Ts"
+            dtm.setValueAt(currentProcess.getState(), pid - 1, 1);
+            dtm.setValueAt(currentProcess.getBurstTime(), pid - 1, 3);
+            dtm.setValueAt(currentProcess.getExecutionTime() - currentProcess.getBurstTime(), pid - 1, 4);
+        }
     }
 
     /**
@@ -1419,7 +1418,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
             String data[] = {"Process " + pid, p.getState(), "" + p.getExecutionTime(), "" + p.getBurstTime(), "" + (p.getExecutionTime() - p.getBurstTime()), "", "", "", "", ""};
             dtm.addRow(data);
         }
-             
+
         cpu.addObserver(this);
         createJobsBtn.setEnabled(false);
 

@@ -36,8 +36,10 @@ public class Dispatcher implements Observer {
         cpu.pauseExecution();
         if (cpu.getCurrent() != null) {
             Process p = cpu.getCurrent();
-            p.setState("Ready");
-            readyQueue.enqueue(p);
+            if (!p.isComplete()) {
+                p.setState("Ready");
+                readyQueue.enqueue(p);
+            }
         }
         Process next = readyQueue.dequeue();
         cpu.setCurrent(next);
@@ -48,13 +50,16 @@ public class Dispatcher implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        //System.out.println("sdjfdskjfnddddddddddddddddddddddddddddddd");
-        if (o.getClass().toString().contains("Timer")) {
+        System.out.println("sdjfdskjfnddddddddddddddddddddddddddddddd");
+        
+        //if (o.getClass().toString().contains("TimeSlicer")) {
+        if (arg == null) {
+            
             dispatch();
             //System.out.println("dispatched");
-        } else if(o.getClass().toString().contains("Timer")){
-            
-        }else {
+        } else if (o.getClass().toString().contains("")) {
+
+        } else {
             interrupt();
         }
     }

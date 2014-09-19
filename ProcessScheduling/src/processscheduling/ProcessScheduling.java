@@ -16,52 +16,47 @@ public class ProcessScheduling {
     /**
      * @param args the command line arguments
      */
-    TimerZeta timer;
+//    TimeSlicer timeSlicer;
     Dispatcher dispatcher;
     Cpu cpu;
     long timeQuantum;
     Process currentProcess;
-    
+
     private ArrayList<Process> processes;
-    
-    public Cpu getCpu(){
+
+    public Cpu getCpu() {
         return cpu;
     }
 
     public ProcessScheduling(long timeQuantum) {
         this.timeQuantum = timeQuantum;
-        this.timer = new TimerZeta(1000);
+        //this.timeSlicer = new TimeSlicer(timeQuantum);
         this.cpu = new Cpu(timeQuantum);
         this.dispatcher = new Dispatcher(cpu, timeQuantum);
+
         processes = new ArrayList<>();
+        //timeSlicer.addObserver(dispatcher);
 
-        
-        timer.addObserver(dispatcher);
-        
     }
 
-    public void simulate() { 
-        Thread slicer= new Thread(timer);
-        slicer.start();
+    public void simulate() {
+        //timeSlicer.startTimer();
         currentProcess = dispatcher.dispatch();
-       
+
     }
-    
-    public Process getCurrentProcess(){
+
+    public Process getCurrentProcess() {
         return currentProcess;
     }
-    
-    public void createTenProcesses(){
+
+    public void createTenProcesses() {
         for (int i = 0; i < 10; i++) {
-            Process newProcess = new Process((i+1), "Ready", (i + 1) * 6000, 0, 0, (i + 1) * 6000);
+            Process newProcess = new Process((i + 1), "Ready", (i + 1) * 1000, 0, 0, (i + 1) * 1000);
             dispatcher.addNewProcess(newProcess);
             processes.add(newProcess);
         }
 
-        
-        
         //dispatcher.dispatch();
-
     }
 
     public static void main(String[] args) {
