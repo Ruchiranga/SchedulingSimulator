@@ -19,21 +19,6 @@ public class Cpu extends Observable {
     public Cpu(long timeQuantum) {
         this.timeQunatum = timeQuantum;
 
-        task = new TimerTask() {
-
-            @Override
-            public void run() {
-                long currentBurst = current.getBurstTime();
-                if (currentBurst - 1000 >= 0) {
-                    current.setBurstTime(currentBurst - 1000);
-                    System.out.println(current.getPid() + " is executing and current burst is " + currentBurst);
-                    notifyObservers(current);
-                } else {
-                    current.setBurstTime(0);
-                    System.out.println("Exceeded burst time " + current.getPid());
-                }
-            }
-        };
     }
 
     /**
@@ -50,24 +35,26 @@ public class Cpu extends Observable {
         this.current = current;
     }
 
-    public void execute() {
+    public void execute() { //This is the timer task that runs
+        
 
         timer = new Timer();
         task = new TimerTask() {
 
             @Override
             public void run() {
-                //if (current != null) {
-                    long currentBurst = current.getBurstTime();
-                    if (currentBurst - 1000 > 0) {
-                        current.setBurstTime(currentBurst - 1000);
-                        System.out.println(current.getPid() + " is executed and current burst is " + currentBurst);
-                    } else {
-                        current.setBurstTime(0);
-                        System.out.println(current.getPid() + " finished execution and current burst is " + currentBurst);
-                        current = null;
-                    }
-                //}
+                System.out.println("Cpu started at :" + System.currentTimeMillis());
+                long currentBurst = current.getBurstTime();
+                if (currentBurst - 1000 > 0) {
+                    current.setBurstTime(currentBurst - 1000);
+                    System.out.println(current.getPid()+" is executed and current burst is "+currentBurst +"( Execution time :"+current.getExecutionTime()+" )");
+                    setChanged();
+                    notifyObservers(current);
+                } else {
+                    current.setBurstTime(0);
+                    System.out.println(current.getPid()+" finished execution and current burst is "+currentBurst);
+                    current = null;
+                }
             }
         };
         timer.schedule(task, 0, 1000);

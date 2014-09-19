@@ -24,6 +24,7 @@ public class TimerZeta extends Observable implements Runnable {
                 //System.out.println(endTime - System.currentTimeMillis());
             }
             setChanged();
+            System.out.println("Timer time :" + System.currentTimeMillis());
             notifyObservers();
         }
     }

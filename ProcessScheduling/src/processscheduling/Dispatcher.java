@@ -35,10 +35,13 @@ public class Dispatcher implements Observer {
 
         cpu.pauseExecution();
         if (cpu.getCurrent() != null) {
-            readyQueue.enqueue(cpu.getCurrent());
+            Process p = cpu.getCurrent();
+            p.setState("Ready");
+            readyQueue.enqueue(p);
         }
         Process next = readyQueue.dequeue();
         cpu.setCurrent(next);
+        next.setState("Running");
         cpu.execute();
         return next;
     }
