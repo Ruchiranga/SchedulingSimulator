@@ -40,6 +40,8 @@ public class ProcessScheduling {
     }
 
     public void simulate() { 
+        Thread slicer= new Thread(timer);
+        slicer.start();
         currentProcess = dispatcher.dispatch();
        
     }
@@ -55,8 +57,7 @@ public class ProcessScheduling {
             processes.add(newProcess);
         }
 
-        Thread slicer= new Thread(timer);
-        slicer.start();
+        
         
         //dispatcher.dispatch();
 
