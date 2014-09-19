@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.table.DefaultTableModel;
 import processscheduling.Cpu;
+import processscheduling.Dispatcher;
 import processscheduling.ProcessScheduling;
 import processscheduling.Process;
 
@@ -35,6 +36,10 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
     JProgressBar[] bars;
 
     Cpu cpu;
+    Dispatcher dispatcher;
+
+    int blockedLoc = 1;
+    int readyLoc = 230;
 
     /**
      * Creates new form DemostrationInterface
@@ -46,6 +51,9 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
 
         scheduler = new ProcessScheduling(3000);      //Give time quantum
         cpu = scheduler.getCpu();
+        dispatcher = scheduler.getDispatcher();
+
+        dispatcher.addObserver(this);
 
         bars = new JProgressBar[10];
         bars[0] = process1_progressBar;
@@ -76,7 +84,13 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg != null) {
+        if (o.getClass().toString().contains("Dispatcher")) {
+            JPanel nextPanel = (JPanel) BlockedQueuePanel.getComponentAt(blockedLoc -= 23, 0);
+            ReadyQueuePanel.add(nextPanel);
+            BlockedQueuePanel.remove(nextPanel);
+            nextPanel.setLocation(readyLoc, 0);
+            readyLoc += 23;
+        } else if (arg != null) {
             Process currentProcess = (Process) arg;
 
             int pid = currentProcess.getPid();
@@ -98,6 +112,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
             dtm.setValueAt(currentProcess.getBurstTime(), pid - 1, 3);
             dtm.setValueAt(currentProcess.getExecutionTime() - currentProcess.getBurstTime(), pid - 1, 4);
         }
+
     }
 
     /**
@@ -134,7 +149,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         process9_progressBar = new javax.swing.JProgressBar();
         jLabel16 = new javax.swing.JLabel();
         process10_progressBar = new javax.swing.JProgressBar();
-        SimulationBtn1 = new javax.swing.JButton();
+        interruptBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         BlockedQueuePanel = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
@@ -353,10 +368,10 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
 
         process10_progressBar.setForeground(new java.awt.Color(255, 255, 255));
 
-        SimulationBtn1.setText("Stop Simulation");
-        SimulationBtn1.addActionListener(new java.awt.event.ActionListener() {
+        interruptBtn.setText("Interrupt");
+        interruptBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SimulationBtn1ActionPerformed(evt);
+                interruptBtnActionPerformed(evt);
             }
         });
 
@@ -372,51 +387,48 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(SimulationBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SimulationBtn1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(interruptBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 38, Short.MAX_VALUE)
+                        .addComponent(process2_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(process3_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(process1_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(process4_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(process5_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(process6_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(process7_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(process8_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 38, Short.MAX_VALUE)
-                                .addComponent(process2_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 38, Short.MAX_VALUE)
-                                .addComponent(process3_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 38, Short.MAX_VALUE)
-                                .addComponent(process1_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 38, Short.MAX_VALUE)
-                                .addComponent(process4_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 38, Short.MAX_VALUE)
-                                .addComponent(process5_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 38, Short.MAX_VALUE)
-                                .addComponent(process6_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 38, Short.MAX_VALUE)
-                                .addComponent(process7_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 38, Short.MAX_VALUE)
-                                .addComponent(process8_progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel16))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(process10_progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(process9_progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))))
-                        .addGap(23, 23, 23))))
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel16))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(process10_progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(process9_progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))))
+                .addGap(23, 23, 23))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,7 +438,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(createJobsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(SimulationBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(SimulationBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(interruptBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(process1_progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1373,6 +1385,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
     private void SimulationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulationBtnActionPerformed
 
         scheduler.simulate();
+
 //        final Process currentProcess = scheduler.getCurrentProcess();
 //        Timer t;
 //        int i = 0;
@@ -1424,9 +1437,30 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
 
 }//GEN-LAST:event_createJobsBtnActionPerformed
 
-    private void SimulationBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulationBtn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SimulationBtn1ActionPerformed
+    private void interruptBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptBtnActionPerformed
+        Process currentProcess = cpu.getCurrent();
+        scheduler.interrupt(5000);
+
+        int pid = currentProcess.getPid();
+        //currentProcessTxt.setText("Process " + pid);
+        //System.out.println("Burst " + currentProcess.getBurstTime() + " Exe time " + currentProcess.getExecutionTime());
+        //float progValue = ((float) currentProcess.getBurstTime() / (float) currentProcess.getExecutionTime()) * 100;
+        //System.out.println(progValue);
+
+        //bars[pid - 1].setValue(Math.round(progValue));
+        Color color = bars[pid - 1].getForeground();
+        JPanel blockedPanel = new JPanel();
+        blockedPanel.setBackground(color);
+        blockedPanel.setSize(23, 100);
+        BlockedQueuePanel.add(blockedPanel);
+        blockedPanel.setLocation(blockedLoc, 0);
+        blockedLoc += 23;
+
+        //"Process", "State", "Execution Time", "Burst Time", "Service Time (Ts)", "Start Time", "Finish Time", "Waiting Time", "Turnaround Time (Tr)", "Tr/Ts"
+//        dtm.setValueAt(currentProcess.getState(), pid - 1, 1);
+//        dtm.setValueAt(currentProcess.getBurstTime(), pid - 1, 3);
+//        dtm.setValueAt(currentProcess.getExecutionTime() - currentProcess.getBurstTime(), pid - 1, 4);
+    }//GEN-LAST:event_interruptBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1443,10 +1477,10 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
     private javax.swing.JPanel BlockedQueuePanel;
     private javax.swing.JPanel ReadyQueuePanel;
     private javax.swing.JButton SimulationBtn;
-    private javax.swing.JButton SimulationBtn1;
     private javax.swing.JButton createJobsBtn;
     private javax.swing.JTextField currentProcessTxt;
     private javax.swing.JPanel ganttChartPanel;
+    private javax.swing.JButton interruptBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel100;

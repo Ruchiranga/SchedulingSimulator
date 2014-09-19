@@ -82,5 +82,13 @@ public class ProcessScheduling {
     public ArrayList<Process> getProcesses() {
         return processes;
     }
+    
+    public void interrupt(long time){
+        dispatcher.interrupt(time);
+    }
+
+    public Dispatcher getDispatcher() {
+        return dispatcher;
+    }
 
 }

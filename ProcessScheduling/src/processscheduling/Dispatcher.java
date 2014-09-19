@@ -7,8 +7,10 @@ package processscheduling;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Dispatcher implements Observer {
+public class Dispatcher extends Observable implements Observer {
 
     Queue readyQueue;
     Queue blockedQueue;
@@ -27,8 +29,30 @@ public class Dispatcher implements Observer {
         readyQueue.enqueue(p);
     }
 
-    public void interrupt() {
+    public void interrupt(long time) {
+        cpu.pauseExecution();
+        if (cpu.getCurrent() != null) {
+            Process p = cpu.getCurrent();
+            if (!p.isComplete()) {
+                p.setState("Blocked");
+                blockedQueue.enqueue(p);
+            }
+        }
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
 
+            @Override
+            public void run() {
+                Process blocked = blockedQueue.dequeue();
+                if (blocked != null) {
+                    readyQueue.enqueue(blocked);
+                    setChanged();
+                    notifyObservers();
+                }
+            }
+        };
+        timer.schedule(task, time);
+        dispatch();
     }
 
     public Process dispatch() {
@@ -51,16 +75,12 @@ public class Dispatcher implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         System.out.println("sdjfdskjfnddddddddddddddddddddddddddddddd");
-        
+
         //if (o.getClass().toString().contains("TimeSlicer")) {
         if (arg == null) {
-            
+
             dispatch();
             //System.out.println("dispatched");
-        } else if (o.getClass().toString().contains("")) {
-
-        } else {
-            interrupt();
-        }
+        } 
     }
 }

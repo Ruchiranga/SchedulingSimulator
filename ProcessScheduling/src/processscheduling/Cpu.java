@@ -16,7 +16,6 @@ public class Cpu extends Observable {
     long timeQunatum;
     Timer timer;
     int seconds;
-    
 
     public Cpu(long timeQuantum) {
         this.timeQunatum = timeQuantum;
@@ -42,30 +41,32 @@ public class Cpu extends Observable {
 
             @Override
             public void run() {
-                
+
                 System.out.println("Cpu started at :" + System.currentTimeMillis());
                 long currentBurst = current.getBurstTime();
-                if (currentBurst - 1000 > 0) {
-                    current.setBurstTime(currentBurst - 1000);
-                    seconds++;
-                    System.out.println(current.getPid() + " is executed and current burst is " + current.getBurstTime() + "( Execution time :" + current.getExecutionTime() + " )");
-                    setChanged();
-                    notifyObservers(current);
-                    
-                } else {
-                    current.setBurstTime(0);
-                    seconds = 0;
-                    current.setIsComplete(true);
-                    System.out.println(current.getPid() + " finished execution and current burst is " + currentBurst);
-                    setChanged();
-                    notifyObservers(current);
-                    setChanged();
-                    notifyObservers();
-                    
+                if (currentBurst != 0) {
+                    if (currentBurst - 1000 > 0) {
+                        current.setBurstTime(currentBurst - 1000);
+                        seconds++;
+                        System.out.println(current.getPid() + " is executed and current burst is " + current.getBurstTime() + "( Execution time :" + current.getExecutionTime() + " )");
+                        setChanged();
+                        notifyObservers(current);
 
+                    } else {
+                        current.setBurstTime(0);
+                        seconds = 0;
+                        current.setIsComplete(true);
+                        System.out.println(current.getPid() + " finished execution and current burst is " + current.getBurstTime());
+                        setChanged();
+                        notifyObservers(current);
+                        setChanged();
+                        notifyObservers();
+
+                    }
+                }else{
+                    this.cancel();
                 }
-                
-                if(seconds%3==0){
+                if (seconds != 0 && seconds % 3 == 0) {
                     setChanged();
                     notifyObservers();
                 }
@@ -77,6 +78,7 @@ public class Cpu extends Observable {
     void pauseExecution() {
         if (timer != null) {
             timer.cancel();
+            seconds = 0;
         }
     }
 
