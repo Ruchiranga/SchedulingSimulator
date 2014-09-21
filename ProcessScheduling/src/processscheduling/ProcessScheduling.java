@@ -16,34 +16,30 @@ public class ProcessScheduling {
     /**
      * @param args the command line arguments
      */
-//    TimeSlicer timeSlicer;
     Dispatcher dispatcher;
     Cpu cpu;
     long timeQuantum;
     Process currentProcess;
+    
+    public Cpu getCpu(){
+        return cpu;
+    }
+    
+    public Dispatcher getDispatcher(){
+        return dispatcher;
+    }
 
     private ArrayList<Process> processes;
 
-    public Cpu getCpu() {
-        return cpu;
-    }
-
-    public ProcessScheduling(long timeQuantum) {
+    public ProcessScheduling(long timeQuantum, long startTime) {
         this.timeQuantum = timeQuantum;
-        //this.timeSlicer = new TimeSlicer(timeQuantum);
-        this.cpu = new Cpu(timeQuantum);
+        this.cpu = new Cpu(timeQuantum, startTime);
         this.dispatcher = new Dispatcher(cpu, timeQuantum);
         processes = new ArrayList<>();
-        
-        //timeSlicer.addObserver(dispatcher);
-        //timer.addObserver(dispatcher);
-        
-
 
     }
 
     public void simulate() {
-        //timeSlicer.startTimer();
         currentProcess = dispatcher.dispatch();
 
     }
@@ -52,14 +48,14 @@ public class ProcessScheduling {
         return currentProcess;
     }
 
-    public void createTenProcesses() {
+    public boolean createTenProcesses() {
         for (int i = 0; i < 10; i++) {
-            Process newProcess = new Process((i + 1), "Ready", (i + 1) * 1000, 0, 0, (i + 1) * 1000);
+            Process newProcess = new Process((i + 1), "Ready", (i + 1) * 1000, 0, 0, (i + 1) * 1000, -1, -1);
+            System.out.println("qqqqqqqqqqqq : "+newProcess.getStartTime());
             dispatcher.addNewProcess(newProcess);
             processes.add(newProcess);
         }
-
-        //dispatcher.dispatch();
+        return true;
     }
 
     public static void main(String[] args) {
@@ -87,6 +83,7 @@ public class ProcessScheduling {
         return processes;
     }
     
+
     public long createTimeQuantum(){
         long sum=0,dividend=0,intSum=0;
         for(int i=0;i<10;i++){
@@ -99,5 +96,11 @@ public class ProcessScheduling {
         
         return Math.round(Math.sqrt(sum)/dividend);        
     }
+
+    public void interrupt(long time){
+        dispatcher.interrupt(time);
+    }
+
+
 
 }

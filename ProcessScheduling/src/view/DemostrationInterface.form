@@ -77,66 +77,61 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="SimulationBtn" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="SimulationBtn1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="interruptBtn" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel3" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace type="unrelated" pref="38" max="32767" attributes="0"/>
+                              <Component id="process2_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel4" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                              <Component id="process3_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel5" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                              <Component id="process1_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel6" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                              <Component id="process4_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel7" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                              <Component id="process5_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel8" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                              <Component id="process6_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel9" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                              <Component id="process7_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel10" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                              <Component id="process8_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel3" min="-2" max="-2" attributes="1"/>
-                                      <EmptySpace type="unrelated" pref="38" max="32767" attributes="0"/>
-                                      <Component id="process2_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel4" min="-2" max="-2" attributes="1"/>
-                                      <EmptySpace type="unrelated" pref="38" max="32767" attributes="0"/>
-                                      <Component id="process3_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel5" min="-2" max="-2" attributes="1"/>
-                                      <EmptySpace type="unrelated" pref="38" max="32767" attributes="0"/>
-                                      <Component id="process1_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel6" min="-2" max="-2" attributes="1"/>
-                                      <EmptySpace type="unrelated" pref="38" max="32767" attributes="0"/>
-                                      <Component id="process4_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel7" min="-2" max="-2" attributes="1"/>
-                                      <EmptySpace type="unrelated" pref="38" max="32767" attributes="0"/>
-                                      <Component id="process5_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel8" min="-2" max="-2" attributes="1"/>
-                                      <EmptySpace type="unrelated" pref="38" max="32767" attributes="0"/>
-                                      <Component id="process6_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel9" min="-2" max="-2" attributes="1"/>
-                                      <EmptySpace type="unrelated" pref="38" max="32767" attributes="0"/>
-                                      <Component id="process7_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel10" min="-2" max="-2" attributes="1"/>
-                                      <EmptySpace type="unrelated" pref="38" max="32767" attributes="0"/>
-                                      <Component id="process8_progressBar" min="-2" pref="241" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="1"/>
-                                          <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="1"/>
-                                      </Group>
-                                      <EmptySpace pref="32" max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="process10_progressBar" max="32767" attributes="1"/>
-                                          <Component id="process9_progressBar" alignment="0" pref="241" max="32767" attributes="1"/>
-                                      </Group>
-                                  </Group>
+                                  <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="1"/>
+                                  <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="1"/>
                               </Group>
-                              <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="process10_progressBar" max="32767" attributes="1"/>
+                                  <Component id="process9_progressBar" alignment="0" pref="241" max="32767" attributes="1"/>
+                              </Group>
                           </Group>
                       </Group>
+                      <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -149,7 +144,7 @@
                               <Component id="createJobsBtn" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                               <Component id="SimulationBtn" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="SimulationBtn1" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="interruptBtn" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -218,6 +213,7 @@
             <Component class="javax.swing.JButton" name="SimulationBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Start Simulation"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SimulationBtnActionPerformed"/>
@@ -343,12 +339,13 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="SimulationBtn1">
+            <Component class="javax.swing.JButton" name="interruptBtn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stop Simulation"/>
+                <Property name="text" type="java.lang.String" value="Interrupt"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SimulationBtn1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="interruptBtnActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -370,11 +367,10 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jSeparator3" alignment="0" pref="418" max="32767" attributes="1"/>
-                          <Component id="BlockedQueuePanel" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel67" min="-2" pref="16" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -398,6 +394,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel77" min="-2" pref="16" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="BlockedQueuePanel" alignment="0" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -429,26 +426,6 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="BlockedQueuePanel">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-              </Properties>
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="418" max="32767" attributes="0"/>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="70" max="32767" attributes="0"/>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-            </Container>
             <Component class="javax.swing.JSeparator" name="jSeparator3">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel67">
@@ -506,6 +483,26 @@
                 <Property name="text" type="java.lang.String" value="10"/>
               </Properties>
             </Component>
+            <Container class="javax.swing.JPanel" name="BlockedQueuePanel">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="418" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="70" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel4">
@@ -752,12 +749,12 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel15" min="-2" pref="179" max="-2" attributes="1"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jTextField3" min="-2" pref="137" max="-2" attributes="0"/>
+                              <Component id="tatText" min="-2" pref="137" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel13" min="-2" pref="112" max="-2" attributes="1"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jTextField2" min="-2" pref="137" max="-2" attributes="0"/>
+                              <Component id="currentTimeTxt" min="-2" pref="137" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel12" min="-2" pref="112" max="-2" attributes="1"/>
@@ -780,12 +777,12 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel13" min="-2" pref="28" max="-2" attributes="0"/>
-                          <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
+                          <Component id="currentTimeTxt" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel15" min="-2" pref="28" max="-2" attributes="0"/>
-                          <Component id="jTextField3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tatText" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -816,7 +813,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField2">
+            <Component class="javax.swing.JTextField" name="currentTimeTxt">
               <Properties>
                 <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -824,7 +821,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField3">
+            <Component class="javax.swing.JTextField" name="tatText">
               <Properties>
                 <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>

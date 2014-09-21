@@ -7,8 +7,10 @@ package processscheduling;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Dispatcher implements Observer {
+public class Dispatcher extends Observable implements Observer {
 
     private Queue readyQueue;
     private Queue blockedQueue;
@@ -23,11 +25,41 @@ public class Dispatcher implements Observer {
         cpu.addObserver(this);
     }
 
+    public Queue getReadyQueue() {
+        return readyQueue;
+    }
+
+    public Queue getBlockedQueue() {
+        return blockedQueue;
+    }
+
     void addNewProcess(Process p) {
         getReadyQueue().enqueue(p);
     }
 
-    public void interrupt() {
+    public void interrupt(long time) {
+        cpu.pauseExecution();
+        if (cpu.getCurrent() != null) {
+            Process p = cpu.getCurrent();
+            if (!p.isComplete()) {
+                p.setState("Blocked");
+                blockedQueue.enqueue(p);
+            }
+        }
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+
+            @Override
+            public void run() {
+                Process blocked = blockedQueue.dequeue();
+                if (blocked != null) {
+                    readyQueue.enqueue(blocked);
+                }
+            }
+        };
+
+        timer.schedule(task, 0, time);  
+        dispatch();
 
     }
 
@@ -36,10 +68,12 @@ public class Dispatcher implements Observer {
 
         cpu.pauseExecution();
         if (cpu.getCurrent() != null) {
-            Process p = cpu.getCurrent();
-            if (!p.isComplete()) {
-                p.setState("Ready");
-                readyQueue.enqueue(p);
+            if (!cpu.getCurrent().getState().equalsIgnoreCase("Blocked")) {
+                Process p = cpu.getCurrent();
+                if (!p.isComplete()) {
+                    p.setState("Ready");
+                    readyQueue.enqueue(p);
+                }
             }
         }
 
@@ -48,38 +82,33 @@ public class Dispatcher implements Observer {
         getCpu().execute();*/
 
         Process next = readyQueue.dequeue();
-        cpu.setCurrent(next);
-        next.setState("Running");
-        cpu.execute();
-        return next;
+        
+        if (next != null) {
+            if(next.getStartTime() == (long)(-1)){
+                next.setStartTime(cpu.getCurrentTime());
+            }
+            cpu.setCurrent(next);
+            next.setState("Running");
+            cpu.execute();
+            return next;
+        } else {
+            cpu.setCurrent(null);
+            return null;
+        }
+
     }
     
     
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("sdjfdskjfnddddddddddddddddddddddddddddddd");
-        
-        //if (o.getClass().toString().contains("TimeSlicer")) {
         if (arg == null) {
-            
-            dispatch();
-            //System.out.println("dispatched");
-        } else if (o.getClass().toString().contains("")) {
 
-        } else {
-            interrupt();
+            dispatch();
         }
     }
 
-    /**
-     * @return the readyQueue
-     */
-    public Queue getReadyQueue() {
-        return readyQueue;
-    }
-
-    /**
+       /**
      * @param readyQueue the readyQueue to set
      */
     public void setReadyQueue(Queue readyQueue) {
@@ -89,10 +118,7 @@ public class Dispatcher implements Observer {
     /**
      * @return the blockedQueue
      */
-    public Queue getBlockedQueue() {
-        return blockedQueue;
-    }
-
+    
     /**
      * @param blockedQueue the blockedQueue to set
      */
