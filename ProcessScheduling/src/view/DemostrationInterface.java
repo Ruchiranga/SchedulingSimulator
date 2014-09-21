@@ -29,24 +29,21 @@ import processscheduling.Process;
 public class DemostrationInterface extends javax.swing.JFrame implements Observer {
 
     String[] title = {"Process", "State", "Execution Time", "Burst Time", "Service Time (Ts)", "Start Time", "Finish Time", "Waiting Time", "Turnaround Time (Tr)", "Tr/Ts"};
-    DefaultTableModel dtm = new DefaultTableModel(title, 0);
-
+    DefaultTableModel dtm = new DefaultTableModel(title, 0);  //At first, number of rows is 0
     ProcessScheduling scheduler;
     JProgressBar[] bars;
-
     Cpu cpu;
 
-    /**
-     * Creates new form DemostrationInterface
-     */
+   
     public DemostrationInterface() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setTitle("Process Scheduler");
 
         scheduler = new ProcessScheduling(3000);      //Give time quantum
+        
         cpu = scheduler.getCpu();
-
+        //System.out.println("*********"+scheduler.createTimeQuantum());
         bars = new JProgressBar[10];
         bars[0] = process1_progressBar;
         bars[1] = process2_progressBar;

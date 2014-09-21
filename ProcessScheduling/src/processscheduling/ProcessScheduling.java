@@ -33,11 +33,9 @@ public class ProcessScheduling {
         //this.timeSlicer = new TimeSlicer(timeQuantum);
         this.cpu = new Cpu(timeQuantum);
         this.dispatcher = new Dispatcher(cpu, timeQuantum);
-
-
         processes = new ArrayList<>();
+        
         //timeSlicer.addObserver(dispatcher);
-
         //timer.addObserver(dispatcher);
         
 
@@ -79,6 +77,7 @@ public class ProcessScheduling {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(ProcessScheduling.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     /**
