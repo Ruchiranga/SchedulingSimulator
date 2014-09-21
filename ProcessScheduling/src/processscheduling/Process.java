@@ -11,8 +11,10 @@ public class Process {
     private long turnAroundTime;
     private long executionTime; //service time= executionTime-burstTime
     private boolean isComplete;
+    private long startTime;
+    private long finishedTime;
 
-    public Process(int pid, String state, long burstTime, long waitingTime, long turnAroundTime, long executionTime) {
+    public Process(int pid, String state, long burstTime, long waitingTime, long turnAroundTime, long executionTime, long startTime, long finishedTime) {
         this.pid = pid;
         this.state = state;
         this.burstTime = burstTime;
@@ -20,6 +22,8 @@ public class Process {
         this.turnAroundTime = turnAroundTime;
         this.executionTime = executionTime;
         this.isComplete = false;
+        this.startTime = startTime;
+        this.finishedTime = finishedTime;
     }
 
     /**
@@ -118,6 +122,34 @@ public class Process {
      */
     public void setIsComplete(boolean isComplete) {
         this.isComplete = isComplete;
+    }
+
+    /**
+     * @return the startTime
+     */
+    public long getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * @param startTime the startTime to set
+     */
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    /**
+     * @return the finishedTime
+     */
+    public long getFinishedTime() {
+        return finishedTime;
+    }
+
+    /**
+     * @param finishedTime the finishedTime to set
+     */
+    public void setFinishedTime(long finishedTime) {
+        this.finishedTime = finishedTime;
     }
 
 }
