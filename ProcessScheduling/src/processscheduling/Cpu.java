@@ -60,7 +60,10 @@ public class Cpu extends Observable {
                         current.setIsComplete(true);
                         current.setState("Finished");
                         current.setFinishedTime(getCurrentTime());
+                        current.setTurnAroundTime(current.getFinishedTime()-current.getStartTime());
+                        current.setWaitingTime(current.getFinishedTime()-current.getStartTime()-current.getExecutionTime());
                         System.out.println(current.getPid() + " finished execution and current burst is " + current.getBurstTime());
+                        
                         setChanged();
                         notifyObservers(current);
                         setChanged();

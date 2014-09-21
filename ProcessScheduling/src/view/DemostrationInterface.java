@@ -43,6 +43,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
     int readyLoc = 1;
     
     long startTime = 0;
+    int finishedProcesses = 0;
     /**
      * Creates new form DemostrationInterface
      */
@@ -171,10 +172,26 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
 
             dtm.setValueAt(currentProcess.getState(), pid - 1, 1);
             dtm.setValueAt(currentProcess.getBurstTime(), pid - 1, 3);
-            dtm.setValueAt(currentProcess.getExecutionTime() - currentProcess.getBurstTime(), pid - 1, 4);
+            long serviceTime = currentProcess.getExecutionTime() - currentProcess.getBurstTime();
+            dtm.setValueAt(serviceTime, pid - 1, 4);
             dtm.setValueAt(currentProcess.getStartTime(), pid - 1, 5);
             if(currentProcess.getFinishedTime() != -1){
                 dtm.setValueAt(currentProcess.getFinishedTime(), pid - 1, 6);
+            }
+            if(currentProcess.getState().equalsIgnoreCase("Finished")){
+                finishedProcesses++;
+                dtm.setValueAt(currentProcess.getWaitingTime(), pid - 1, 7);
+                long tat = currentProcess.getTurnAroundTime();
+                dtm.setValueAt(tat, pid - 1, 8);
+                dtm.setValueAt(tat/serviceTime, pid - 1, 9);
+                if(finishedProcesses==10){
+                    long totalTat = 0;
+                    for (int i = 0; i < title.length; i++) {
+                        totalTat += Long.parseLong(""+dtm.getValueAt(i, 8));
+                        
+                    }
+                    tatText.setText(""+totalTat/10);
+                }
             }
             
         }
@@ -253,7 +270,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         jLabel15 = new javax.swing.JLabel();
         currentProcessTxt = new javax.swing.JTextField();
         currentTimeTxt = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        tatText = new javax.swing.JTextField();
         scrollPane = new javax.swing.JScrollPane();
         mainPanel = new javax.swing.JPanel();
         jSeparator4 = new javax.swing.JSeparator();
@@ -785,8 +802,8 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         currentTimeTxt.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         currentTimeTxt.setEnabled(false);
 
-        jTextField3.setDisabledTextColor(new java.awt.Color(255, 255, 255));
-        jTextField3.setEnabled(false);
+        tatText.setDisabledTextColor(new java.awt.Color(255, 255, 255));
+        tatText.setEnabled(false);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -798,7 +815,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tatText, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -823,7 +840,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tatText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -1654,7 +1671,6 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JProgressBar process10_progressBar;
     private javax.swing.JProgressBar process1_progressBar;
@@ -1667,6 +1683,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
     private javax.swing.JProgressBar process8_progressBar;
     private javax.swing.JProgressBar process9_progressBar;
     private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JTextField tatText;
     // End of variables declaration//GEN-END:variables
 
 }
