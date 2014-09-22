@@ -36,15 +36,16 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
     DefaultTableModel dtm = new DefaultTableModel(title, 0);  //At first, number of rows is 0
     ProcessScheduling scheduler;
     JProgressBar[] bars;
-    Cpu cpu; 
+    Cpu cpu;
     Dispatcher dispatcher;
 
     int loc = 0;
     int blockedLoc = 0;
     int readyLoc = 1;
-    
+
     long startTime = 0;
     int finishedProcesses = 0;
+
     /**
      * Creates new form DemostrationInterface
      */
@@ -53,16 +54,6 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setTitle("Process Scheduler");
-
-
-        scheduler = new ProcessScheduling(3000, startTime);      //Give time quantum
-        cpu = scheduler.getCpu();
-        dispatcher = scheduler.getDispatcher();
-
-        dispatcher.addObserver(this);
-        dispatcher.getReadyQueue().addObserver(this);
-        dispatcher.getBlockedQueue().addObserver(this);
-
 
         bars = new JProgressBar[10];
         bars[0] = process1_progressBar;
@@ -89,24 +80,21 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
 
     }
 
-    
     @Override
     public void update(Observable o, Object arg) {
         //
-        
+
         if (o.getClass().toString().contains("Dispatcher")) {
 
         } else if (o.getClass().toString().contains("Queue")) {
 
             readyLoc = 0;
-            //blockedLoc = 1;
+            blockedLoc = 0;
 
             ArrayList<Process> readyProcesses = dispatcher.getReadyQueue().getProcesses();
             ArrayList<Process> blockedProcesses = dispatcher.getBlockedQueue().getProcesses();
-            
 
             ReadyQueuePanel.removeAll();
-            System.out.println("=====================================================================================");
             for (int i = 0; i < dispatcher.getReadyQueue().size(); i++) {
 
                 Process p = readyProcesses.get(i);
@@ -130,11 +118,9 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
             }
             ReadyQueuePanel.revalidate();
             ReadyQueuePanel.repaint();
-            System.out.println("\n=====================================================================================");
 
-            //BlockedQueuePanel.removeAll();
-            
-            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            BlockedQueuePanel.removeAll();
+
             for (int i = 0; i < dispatcher.getBlockedQueue().size(); i++) {
                 Process p = blockedProcesses.get(i);
                 int pid = p.getPid();
@@ -152,14 +138,13 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
                 dtm.setValueAt(p.getBurstTime(), pid - 1, 3);
                 dtm.setValueAt(p.getExecutionTime() - p.getBurstTime(), pid - 1, 4);
             }
-            //BlockedQueuePanel.revalidate();
-            //BlockedQueuePanel.repaint();
-            System.out.println("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            BlockedQueuePanel.revalidate();
+            BlockedQueuePanel.repaint();
 
         } else if (arg != null) {
-            
+
             //currentTime += 1000;
-            currentTimeTxt.setText(""+cpu.getCurrentTime());
+            currentTimeTxt.setText("" + cpu.getCurrentTime());
             Process currentProcess = (Process) arg;
 
             int pid = currentProcess.getPid();
@@ -171,14 +156,16 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
             JPanel runningPanel = new JPanel();
             runningPanel.setBackground(color);
             runningPanel.setSize(23, 100);
-            for(int i=1;i<=ganttChartPanel.getComponentCount();i++){
-                JPanel pnl = (JPanel) ganttChartPanel.getComponent(i-1);
+
+            for (int i = 1; i <= ganttChartPanel.getComponentCount(); i++) {
+                JPanel pnl = (JPanel) ganttChartPanel.getComponent(i - 1);
                 pnl.setBorder(null);
-            }            
+            }
+
             ganttChartPanel.add(runningPanel);
             runningPanel.setLocation(loc, 0);
-          
-            Border border = new LineBorder(Color.BLACK,3);
+
+            Border border = new LineBorder(Color.BLACK, 3);
             runningPanel.setBorder(border);
             loc += 23;
 
@@ -187,25 +174,36 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
             long serviceTime = currentProcess.getExecutionTime() - currentProcess.getBurstTime();
             dtm.setValueAt(serviceTime, pid - 1, 4);
             dtm.setValueAt(currentProcess.getStartTime(), pid - 1, 5);
-            if(currentProcess.getFinishedTime() != -1){
+            if (currentProcess.getFinishedTime() != -1) {
                 dtm.setValueAt(currentProcess.getFinishedTime(), pid - 1, 6);
             }
-            if(currentProcess.getState().equalsIgnoreCase("Finished")){
+            if (currentProcess.getState().equalsIgnoreCase("Finished")) {
                 finishedProcesses++;
                 dtm.setValueAt(currentProcess.getWaitingTime(), pid - 1, 7);
                 long tat = currentProcess.getTurnAroundTime();
                 dtm.setValueAt(tat, pid - 1, 8);
-                dtm.setValueAt(tat/serviceTime, pid - 1, 9);
-                if(finishedProcesses==10){
+                dtm.setValueAt(tat / serviceTime, pid - 1, 9);
+                if (finishedProcesses == 10) {
                     long totalTat = 0;
                     for (int i = 0; i < title.length; i++) {
-                        totalTat += Long.parseLong(""+dtm.getValueAt(i, 8));
-                        
+                        totalTat += Long.parseLong("" + dtm.getValueAt(i, 8));
+
                     }
-                    tatText.setText(""+totalTat/10);
+                    tatText.setText("" + totalTat / 10);
                 }
             }
-            
+
+        }
+
+        long total = 0;
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            if (!("" + dtm.getValueAt(i, 3)).equals("")) {
+                total += Long.parseLong("" + dtm.getValueAt(i, 3));
+            }
+        }
+        if (total == 0) {
+            currentProcessTxt.setText("");
+
         }
 
     }
@@ -283,6 +281,8 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         currentProcessTxt = new javax.swing.JTextField();
         currentTimeTxt = new javax.swing.JTextField();
         tatText = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        timeQuantum = new javax.swing.JTextField();
         scrollPane = new javax.swing.JScrollPane();
         mainPanel = new javax.swing.JPanel();
         jSeparator4 = new javax.swing.JSeparator();
@@ -817,6 +817,16 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         tatText.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         tatText.setEnabled(false);
 
+        jLabel14.setText("Time Quantum");
+
+        timeQuantum.setDisabledTextColor(new java.awt.Color(255, 255, 255));
+        timeQuantum.setEnabled(false);
+        timeQuantum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timeQuantumActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -824,6 +834,10 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(timeQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -841,7 +855,11 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timeQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(currentProcessTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -857,7 +875,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         );
 
         jLayeredPane1.add(jPanel6);
-        jPanel6.setBounds(30, 540, 370, 140);
+        jPanel6.setBounds(30, 540, 370, 170);
 
         scrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Gantt Chart"));
 
@@ -1484,25 +1502,42 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         interruptBtn.setEnabled(true);
         SimulationBtn.setEnabled(false);
         scheduler.simulate();
-        
+
 
 }//GEN-LAST:event_SimulationBtnActionPerformed
 
     private void createJobsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createJobsBtnActionPerformed
+
         for (int i = 0; i < 10; i++) {
             String data[] = {"Process " + (i + 1), "" + "", "", "" + "", "", "", "", "", ""};
             dtm.addRow(data);
         }
+
+        scheduler = new ProcessScheduling(startTime);      //Give time quantum
+        cpu = scheduler.getCpu();
+        dispatcher = scheduler.getDispatcher();
+
+        dispatcher.addObserver(this);
+        dispatcher.getReadyQueue().addObserver(this);
+        dispatcher.getBlockedQueue().addObserver(this);
         scheduler.createTenProcesses();
+        long t = scheduler.createTimeQuantum();
+        timeQuantum.setText("" + t);
+        scheduler.setTimeQuantum(t);
         cpu.addObserver(this);
         createJobsBtn.setEnabled(false);
         SimulationBtn.setEnabled(true);
 
+
 }//GEN-LAST:event_createJobsBtnActionPerformed
 
     private void interruptBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptBtnActionPerformed
-        scheduler.interrupt(5000);
+        scheduler.interrupt(2000);
     }//GEN-LAST:event_interruptBtnActionPerformed
+
+    private void timeQuantumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeQuantumActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timeQuantumActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1569,6 +1604,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
     private javax.swing.JLabel jLabel137;
     private javax.swing.JLabel jLabel138;
     private javax.swing.JLabel jLabel139;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel140;
     private javax.swing.JLabel jLabel141;
     private javax.swing.JLabel jLabel142;
@@ -1696,6 +1732,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
     private javax.swing.JProgressBar process9_progressBar;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTextField tatText;
+    private javax.swing.JTextField timeQuantum;
     // End of variables declaration//GEN-END:variables
 
 }

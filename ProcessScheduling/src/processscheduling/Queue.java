@@ -59,5 +59,9 @@ public class Queue extends Observable {
     public Process getProcess(int number){
         return queArray.get(number);
     }
+    
+    public Process peek(){
+        return queArray.get(0);
+    }
 
 }
