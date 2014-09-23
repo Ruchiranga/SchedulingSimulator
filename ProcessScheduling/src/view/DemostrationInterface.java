@@ -143,7 +143,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
 
         } else if (arg != null) {
 
-            //currentTime += 1000;
+            
             currentTimeTxt.setText("" + cpu.getCurrentTime());
             Process currentProcess = (Process) arg;
 
@@ -203,6 +203,7 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
         }
         if (total == 0) {
             currentProcessTxt.setText("");
+            interruptBtn.setEnabled(false);
 
         }
 
@@ -819,6 +820,8 @@ public class DemostrationInterface extends javax.swing.JFrame implements Observe
 
         jLabel14.setText("Time Quantum");
 
+        timeQuantum.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        timeQuantum.setForeground(new java.awt.Color(153, 255, 153));
         timeQuantum.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         timeQuantum.setEnabled(false);
         timeQuantum.addActionListener(new java.awt.event.ActionListener() {
