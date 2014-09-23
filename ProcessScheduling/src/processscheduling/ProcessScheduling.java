@@ -1,6 +1,7 @@
 package processscheduling;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -20,6 +21,8 @@ public class ProcessScheduling {
     Cpu cpu;
     long timeQuantum;
     Process currentProcess;
+    private ArrayList<Process> processes;
+
     
     public Cpu getCpu(){
         return cpu;
@@ -29,13 +32,10 @@ public class ProcessScheduling {
         return dispatcher;
     }
 
-    private ArrayList<Process> processes;
-
-    public ProcessScheduling(long timeQuantum, long startTime) {
-        this.timeQuantum = timeQuantum;
-        this.cpu = new Cpu(timeQuantum, startTime);
-        this.dispatcher = new Dispatcher(cpu, timeQuantum);
-
+    
+    public ProcessScheduling(long startTime) {
+        this.cpu = new Cpu(startTime);
+        this.dispatcher = new Dispatcher(cpu);
         processes = new ArrayList<>();
 
     }
@@ -50,11 +50,17 @@ public class ProcessScheduling {
     }
 
     public boolean createTenProcesses() {
+        Random r = new Random();
+        
         for (int i = 0; i < 10; i++) {
-            Process newProcess = new Process((i + 1), "Ready", (i + 1) * 1000, 0, 0, (i + 1) * 1000, -1, -1);
-            System.out.println("qqqqqqqqqqqq : "+newProcess.getStartTime());
+            int random = Math.abs(r.nextInt())%10 +1 ;
+            
+            Process newProcess = new Process((i + 1), "Ready", random * 1000, 0, 0, random * 1000, -1, -1);
+            
             dispatcher.addNewProcess(newProcess);
             processes.add(newProcess);
+            newProcess.addObserver(dispatcher);            
+            
         }
         return true;
     }
@@ -74,6 +80,7 @@ public class ProcessScheduling {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(ProcessScheduling.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     /**
@@ -83,9 +90,32 @@ public class ProcessScheduling {
         return processes;
     }
     
+
+    public long createTimeQuantum(){
+        long sum=0,intSum=0, dividendSum =0;
+        long dividend[] = new long[10];
+        for(int i=0;i<10;i++){
+            sum+= Math.pow(processes.get(i).getExecutionTime(), 2);
+            for(int j=0;j<10 && j!=i;j++){
+                intSum += processes.get(i).getExecutionTime();
+            }  
+            dividend[i] = intSum/9;    
+            dividendSum+=dividend[i];
+        } 
+        
+        int x = (int) (sum/dividendSum)/1000;
+        return x*1000;
+         
+    }
+
     public void interrupt(long time){
         dispatcher.interrupt(time);
     }
 
+    public void setTimeQuantum(long t) {
+        this.timeQuantum = t;
+        cpu.setTimeQuantum(t);
+        dispatcher.setTimeQuantum(t);
+    }
 
 }

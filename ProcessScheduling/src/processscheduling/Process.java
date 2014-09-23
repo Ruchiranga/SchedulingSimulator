@@ -1,8 +1,12 @@
 package processscheduling;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Process {
+public class Process extends Observable {
 
     private int pid;
     private String state;
@@ -52,6 +56,29 @@ public class Process {
      */
     public void setState(String state) {
         this.state = state;
+    }
+
+    public void performIo() {
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            int i = 0;
+            @Override
+            public void run() {
+                
+
+                i++;
+                if(i==2){
+                     setChanged();
+                     
+                    notifyObservers(new String("Interrupt"));
+                    this.cancel();
+                }                
+            }
+        };
+        timer.schedule(task, 0, 5000);
+
+       
+
     }
 
     /**

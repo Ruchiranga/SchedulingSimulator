@@ -12,17 +12,21 @@ import java.util.TimerTask;
 
 public class Dispatcher extends Observable implements Observer {
 
-    Queue readyQueue;
-    Queue blockedQueue;
-    Cpu cpu;
-    long timeQuantum;
+    private Queue readyQueue;
+    private Queue blockedQueue;
+    private Cpu cpu;
+    private long timeQuantum;
 
-    Dispatcher(Cpu cpu, long timeQuantum) {
+    Dispatcher(Cpu cpu) {
         readyQueue = new Queue(10);
         blockedQueue = new Queue(10);
         this.timeQuantum = timeQuantum;
         this.cpu = cpu;
         cpu.addObserver(this);
+    }
+
+    public void setTimeQuantum(long t) {
+        this.timeQuantum = t;
     }
 
     public Queue getReadyQueue() {
@@ -34,7 +38,7 @@ public class Dispatcher extends Observable implements Observer {
     }
 
     void addNewProcess(Process p) {
-        readyQueue.enqueue(p);
+        getReadyQueue().enqueue(p);
     }
 
     public void interrupt(long time) {
@@ -44,21 +48,10 @@ public class Dispatcher extends Observable implements Observer {
             if (!p.isComplete()) {
                 p.setState("Blocked");
                 blockedQueue.enqueue(p);
+                p.performIo();
             }
         }
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
 
-            @Override
-            public void run() {
-                Process blocked = blockedQueue.dequeue();
-                if (blocked != null) {
-                    readyQueue.enqueue(blocked);
-                }
-            }
-        };
-
-        timer.schedule(task, 0, time);  
         dispatch();
 
     }
@@ -75,10 +68,11 @@ public class Dispatcher extends Observable implements Observer {
                 }
             }
         }
+
         Process next = readyQueue.dequeue();
-        
+
         if (next != null) {
-            if(next.getStartTime() == (long)(-1)){
+            if (next.getStartTime() == (long) (-1)) {
                 next.setStartTime(cpu.getCurrentTime());
             }
             cpu.setCurrent(next);
@@ -94,9 +88,57 @@ public class Dispatcher extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+
         if (arg == null) {
 
             dispatch();
+        } else if (o.getClass().toString().contains("Process")) {
+            Process p = blockedQueue.dequeue();
+            readyQueue.enqueue(p);
+            p.setState("Ready");
+            if (readyQueue.peek().getPid() == p.getPid()) {
+                dispatch();
+            }
         }
+
     }
+
+    /**
+     * @param readyQueue the readyQueue to set
+     */
+    public void setReadyQueue(Queue readyQueue) {
+        this.readyQueue = readyQueue;
+    }
+
+    /**
+     * @param blockedQueue the blockedQueue to set
+     */
+    public void setBlockedQueue(Queue blockedQueue) {
+        this.blockedQueue = blockedQueue;
+    }
+
+    /**
+     * @return the cpu
+     */
+    public Cpu getCpu() {
+        return cpu;
+    }
+
+    /**
+     * @param cpu the cpu to set
+     */
+    public void setCpu(Cpu cpu) {
+        this.cpu = cpu;
+    }
+
+    /**
+     * @return the timeQuantum
+     */
+    public long getTimeQuantum() {
+        return timeQuantum;
+    }
+
+    /**
+     * @param timeQuantum the timeQuantum to set
+     */
 }

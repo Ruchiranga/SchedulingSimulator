@@ -13,14 +13,17 @@ public class Cpu extends Observable {
 
     private Process current;
     TimerTask task;
-    long timeQunatum;
+    long timeQuantum;
     Timer timer;
     int seconds;
     private long currentTime;
 
-    public Cpu(long timeQuantum, long currentTime) {
-        this.timeQunatum = timeQuantum;
+    public Cpu(long currentTime) {
         this.currentTime = currentTime;
+    }
+    
+    public void setTimeQuantum(long t) {
+        this.timeQuantum = t;
     }
 
     /**
@@ -37,12 +40,14 @@ public class Cpu extends Observable {
         this.current = current;
     }
 
-    public void execute() { //This is the timer task that runs
+    public void execute() { 
         timer = new Timer();
+        seconds=0;
         task = new TimerTask() {
 
             @Override
             public void run() {
+                
                 
                 long currentBurst = current.getBurstTime();
                 currentTime += 1000;
@@ -73,7 +78,7 @@ public class Cpu extends Observable {
                 }else{
                     this.cancel();
                 }
-                if (seconds != 0 && seconds % 3 == 0) {
+                if (seconds != 0 && seconds % (timeQuantum/1000) == 0) {
                     setChanged();
                     notifyObservers();
                 }
